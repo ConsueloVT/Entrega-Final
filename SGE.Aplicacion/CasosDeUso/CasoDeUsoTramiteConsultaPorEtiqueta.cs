@@ -6,10 +6,10 @@ public class CasoDeUsoTramiteConsultaPorEtiqueta (ITramiteRepositorio tramite):T
 {
    
 
-    public List<Tramite>? Ejecutar (EtiquetaTramite etiqueta)
+    public List<Tramite> Ejecutar (EtiquetaTramite etiqueta)
     {
-        List<Tramite>? tramites = Repositorio.ListarPorEtiqueta(etiqueta);
-        if (tramites != null){
+        List<Tramite> tramites = Repositorio.ListarPorEtiqueta(etiqueta);
+        if (tramites.Count()==0){
             throw new RepositorioException("No hay trámites con la etiqueta ingresada");
         }
         return tramites;

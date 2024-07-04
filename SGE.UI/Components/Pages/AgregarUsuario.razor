@@ -6,6 +6,7 @@
 @inject IHashService HashService
 @inject IUsuarioRepositorio IUsuarioRepositorio
 @inject IUsuarioValidador IUsuarioValidador
+@inject IServicioSesion UserService
 
 <h3>Registrarse</h3>
 <form>
@@ -28,6 +29,8 @@
 </div>
 
 @code {
+    private int id_Usuario => UserService.Id;
+
     Usuario _usuario = new Usuario();
     string _password = string.Empty;
     String ErrorMessage { get; set; }=null!;
@@ -60,8 +63,12 @@
 
     private void VolverHome()
     {
-        NavigationManager.NavigateTo("/"); // Vuelve al Home
-
+        if(id_Usuario==1){
+            NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/"); // Vuelve al Home
+        }
     }
 
 }

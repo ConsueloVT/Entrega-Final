@@ -93,10 +93,15 @@ public class UsuarioRepositorio: IUsuarioRepositorio
         }
     }
 
-    public List<Permiso>? GetPermisos(int id){
+    public List<Permiso> GetPermisos(int id){
         using(var db=new EntidadesContext()){
             var lista=db.Usuarios.Where(u=>u.Id == id).SingleOrDefault()?.ListaPermisos;
-            return lista;
+            if(lista!=null){
+                return lista;
+            }
+            else{
+                return new List<Permiso>();
+            }
         }
     }
 

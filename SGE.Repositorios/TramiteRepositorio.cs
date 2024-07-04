@@ -53,10 +53,14 @@ public class TramiteRepositorio : ITramiteRepositorio
     }
 
 
-    public List<Tramite>? ListarPorEtiqueta(EtiquetaTramite etiqueta){
+    public List<Tramite> ListarPorEtiqueta(EtiquetaTramite etiqueta){
         using (var db = new EntidadesContext()){
             var resultado = db.Tramites.Where(t => t.Etiqueta == etiqueta).ToList();
-            return resultado;
+            if (resultado!=null){
+                return resultado;
+            }
+            return new List<Tramite>();
+            
         }
 
     }

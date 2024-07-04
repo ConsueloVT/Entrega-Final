@@ -74,6 +74,7 @@ else
     </table>
 }
 <div class="container">
+    <button @onclick="IrAgregarUsuario" class="btn btn-primary">Agregar Usuario</button>
     <button @onclick="IrAgregarExpediente" class="btn btn-primary">Agregar Expediente</button>
     <button @onclick="listadoExpedientes" class="btn btn-primary">Ir a Listado de Expedientes</button>
     <button @onclick="VolverHome" class="btn btn-primary">CerrarSesion</button>
@@ -115,6 +116,10 @@ else
             _usuarios = CasoDeUsoListarUsuarios.Ejecutar(usuario_Actual); // Actualiza la lista
             _usuarioEliminar = null; // Limpiar el usuario seleccionado
         }
+    }
+     private void IrAgregarUsuario()
+    {
+        NavigationManager.NavigateTo("/Registrarse");
     }
 
     private void ModificarUsuario(Usuario usuario)

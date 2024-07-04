@@ -71,6 +71,12 @@ else
     <button @onclick="Volver" class="btn btn-primary">Menu</button>
 </div>
 
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
 
 @code {
     private string searchTerm = "";
@@ -94,9 +100,15 @@ else
         _expedienteEliminar = expediente;
         if (_expedienteEliminar != null)
         {
-            CasoDeUsoExpedienteBaja.Ejecutar(_expedienteEliminar.Id,id_Usuario);
-            _expedientes = ListarExpedientes.Ejecutar(); // Actualiza la lista
-            _expedienteEliminar = null; // Limpiar el expediente seleccionado
+            try{
+                CasoDeUsoExpedienteBaja.Ejecutar(_expedienteEliminar.Id,id_Usuario);
+                _expedientes = ListarExpedientes.Ejecutar(); // Actualiza la lista
+                _expedienteEliminar = null; // Limpiar el expediente seleccionado
+            }
+        catch(Exception msj){
+            ErrorMessage = $"Error al eliminar el expediente: {msj.Message}";
+            Console.WriteLine($"Exception: {msj}");
+        }
         }
     }
 

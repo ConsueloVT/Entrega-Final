@@ -8,7 +8,7 @@ public interface ITramiteRepositorio
     void Eliminar(Tramite tramite);
     void Modificar(Tramite tramite);
     List<Tramite> ListarPorIdExpediente(int id);
-    List<Tramite>? ListarPorEtiqueta(EtiquetaTramite etiqueta);
+    List<Tramite> ListarPorEtiqueta(EtiquetaTramite etiqueta);
     //int ObtenerSiguienteId();
     Tramite? ObtenerPorId(int id);
     List<Tramite>? ListarTramites();

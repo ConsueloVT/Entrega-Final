@@ -129,3 +129,4 @@ C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI\obj\Debug\net8.0\refint\SGE.UI.d
 C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI\obj\Debug\net8.0\SGE.UI.pdb
 C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI\obj\Debug\net8.0\SGE.UI.genruntimeconfig.cache
 C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI\obj\Debug\net8.0\ref\SGE.UI.dll
+C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI\obj\Debug\net8.0\SGE.UI.sourcelink.json

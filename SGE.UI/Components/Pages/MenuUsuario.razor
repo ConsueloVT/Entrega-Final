@@ -73,8 +73,8 @@ else
 
     protected override void OnInitialized()
     {
-        var usuario=IUsuarioRepositorio.ObtenerPorId(usuario_Actual);
-        usuario.ListaPermisos = IUsuarioRepositorio.GetPermisos(usuario.Id);
+        var usuario = IUsuarioRepositorio.ObtenerPorId(usuario_Actual);
+        if(usuario!=null) usuario.ListaPermisos = IUsuarioRepositorio.GetPermisos(usuario.Id);
         _usuario = usuario;
 
     }

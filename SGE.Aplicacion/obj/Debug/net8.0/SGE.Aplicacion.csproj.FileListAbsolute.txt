@@ -21,3 +21,4 @@ C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.Aplicacion\obj\Debug\net8.0\SGE.Apl
 C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.Aplicacion\obj\Debug\net8.0\refint\SGE.Aplicacion.dll
 C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.Aplicacion\obj\Debug\net8.0\SGE.Aplicacion.pdb
 C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.Aplicacion\obj\Debug\net8.0\ref\SGE.Aplicacion.dll
+C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.Aplicacion\obj\Debug\net8.0\SGE.Aplicacion.sourcelink.json

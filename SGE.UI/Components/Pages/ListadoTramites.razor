@@ -140,7 +140,7 @@ else
         catch (Exception ex)
         {
             ErrorMessage = $"Ocurrió un error al buscar los trámites: {ex.Message}";
-            _tramites.Clear(); // Limpiar la lista de trámites en caso de error
+            if(_tramites != null ) _tramites.Clear(); // Limpiar la lista de trámites en caso de error
         }
     }
     else

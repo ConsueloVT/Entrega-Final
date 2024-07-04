@@ -4,7 +4,7 @@ using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Enumerativos;
 public class CasoDeUsoUsuarioConsultaTodos(IUsuarioRepositorio _usuarioRepositorio,IServicioAutorizacion servicioAutorizacion):UsuarioCasoDeUso(_usuarioRepositorio)
 {
-    public List<Usuario>? Ejecutar(int idUsuario)
+    public List<Usuario> Ejecutar(int idUsuario)
     {
         if(servicioAutorizacion.PoseeElPermiso(idUsuario,Permiso.ListarUsuarios)){
             /*lista todos los usuarios */
