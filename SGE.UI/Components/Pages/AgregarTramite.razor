@@ -1,0 +1,71 @@
+﻿@page "/AgregarTramite/{idExpediente:int}"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+@inject IServicioSesion ServicioSesion
+@inject CasoDeUsoTramiteAlta CasoDeUsoTramiteAlta
+@inject ITramiteRepositorio TramiteRepositorio
+
+<h1>Agregar Trámite</h1>
+<form>
+
+    <div class="form-group">
+        <label for="contenido">Contenido</label>
+        <textarea id="contenido" class="form-control" @bind="_tramite.Contenido"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="etiqueta">Seleccionar Etiqueta para el Trámite</label><br/>
+        <select id="etiquetas" @bind="_tramite.Etiqueta">
+            @foreach (var etiqueta in Enum.GetValues(typeof(EtiquetaTramite)))
+            {
+                <option value="@etiqueta">@etiqueta</option>
+            }
+        </select>
+    </div>
+    <button type="button" class="btn btn-primary" @onclick="agregarTramite">Agregar</button>
+    <button type="button" class="btn btn-secondary" @onclick="Volver">Menu</button>
+</form>
+
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code{
+
+    [Parameter]
+    public int IdExpediente { get; set;}
+    private int id_Usuario => ServicioSesion.Id;
+
+    private Tramite _tramite = new Tramite();
+    private string ErrorMessage { get; set; }=null!;
+
+    private void agregarTramite()
+    {
+        try{
+            _tramite.ExpedienteId = IdExpediente;
+            // Ejecutar el caso de uso para agregar tramite
+            CasoDeUsoTramiteAlta.Ejecutar(_tramite,id_Usuario);
+            // Limpiar variables después de registrar correctamente
+            _tramite = new Tramite();
+             NavigationManager.NavigateTo($"/listarTramites/{IdExpediente}");
+        }
+        catch(Exception msj){
+            ErrorMessage = $"Error al registrar el tramite: {msj.Message}";
+            Console.WriteLine($"Exception: {msj}");
+        }
+    }
+  
+
+    private void Volver()
+    {
+        if(id_Usuario==1){
+             NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/MenuUsuario");
+        }
+    }
+}  

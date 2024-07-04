@@ -1,0 +1,145 @@
+﻿@page "/MenuAdministrador"
+@rendermode InteractiveServer
+@inject CasoDeUsoUsuarioConsultaTodos CasoDeUsoListarUsuarios
+@inject NavigationManager NavigationManager
+@inject CasoDeUsoUsuarioBaja CasoDeUsoEliminarUsuario
+@inject IServicioSesion UserService
+@inject IUsuarioRepositorio IUsuarioRepositorio
+
+<DialogoConfirmacion @ref="dialogo" OnConfirmado="Eliminar" />
+
+<h1>       Menu Administrador           </h1>
+<h2>Lista de Usuarios</h2>
+<p>A continuación se visualiza el listado de los usuarios.</p>
+
+@if (_usuarios == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo electrónico</th>
+                <th>Permisos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in _usuarios)
+            {
+                <tr>
+                    <td>@usuario.Id</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Apellido</td>
+                    <td>@usuario.CorreoElectronico</td>
+                    <td>
+                        @if (usuario.ListaPermisos != null && usuario.ListaPermisos.Any())
+                        {
+                            <ul>
+                                @foreach (var permiso in usuario.ListaPermisos)
+                                {
+                                    <li>@permiso.ToString()</li> <!-- Asegura que se muestre el valor del permiso -->
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>Sin permisos asignados</span>
+                        }
+                        @if(usuario.Id != 1){
+                            <button class="btn btn-primary" @onclick="()=>EditarPermisos(usuario)">
+                            <span class="oi oi-pencil">Editar</span>
+                            </button>
+                        }
+                    </td>
+                </tr>
+                <td>
+                <div class="container">
+                    <button class="btn btn-primary" @onclick="()=>ModificarUsuario(usuario)">
+                        <span class="oi oi-pencil">Editar</span>
+                    </button>
+                    @if(usuario.Id != 1){
+                    <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(usuario)">
+                        <span class="oi oi-trash">Eliminar</span>
+                    </button>
+                    }
+                </div>
+                </td>
+            }
+        </tbody>
+    </table>
+}
+<div class="container">
+    <button @onclick="IrAgregarExpediente" class="btn btn-primary">Agregar Expediente</button>
+    <button @onclick="listadoExpedientes" class="btn btn-primary">Ir a Listado de Expedientes</button>
+    <button @onclick="VolverHome" class="btn btn-primary">CerrarSesion</button>
+</div>
+
+
+@code {
+
+    public int usuario_Actual => UserService.Id;
+    List<Usuario> _usuarios = null!;
+
+    protected override void OnInitialized()
+    {
+        var usuarios = CasoDeUsoListarUsuarios.Ejecutar(usuario_Actual);
+        foreach (var usuario in usuarios)
+        {
+            usuario.ListaPermisos = IUsuarioRepositorio.GetPermisos(usuario.Id);
+        }
+        
+        _usuarios = usuarios;
+
+    }
+
+    DialogoConfirmacion dialogo=null!; // Declaración de la referencia dialogo
+
+    Usuario? _usuarioEliminar = null;
+
+    private void ConfirmarEliminacion(Usuario usuario)
+    {
+        _usuarioEliminar = usuario;
+        dialogo.Mostrar($"¿Desea eliminar el usuario {usuario.Id}?");
+    }
+
+    private void Eliminar()
+    {
+        if (_usuarioEliminar != null)
+        {
+            CasoDeUsoEliminarUsuario.Ejecutar(_usuarioEliminar,usuario_Actual);
+            _usuarios = CasoDeUsoListarUsuarios.Ejecutar(usuario_Actual); // Actualiza la lista
+            _usuarioEliminar = null; // Limpiar el usuario seleccionado
+        }
+    }
+
+    private void ModificarUsuario(Usuario usuario)
+    {
+        NavigationManager.NavigateTo($"usuario/{usuario.Id}");
+    }
+    
+    private void EditarPermisos(Usuario usuario)
+    {
+        NavigationManager.NavigateTo($"usuarioPermisos/{usuario.Id}");
+    }
+
+     private void IrAgregarExpediente()
+    {
+        NavigationManager.NavigateTo("/AgregarExpediente");
+    }
+    private void listadoExpedientes()
+    {
+        NavigationManager.NavigateTo("/listadoexpedientes");
+    }
+
+
+    private void VolverHome()
+    {
+        UserService.Close();
+        NavigationManager.NavigateTo("/");
+    }
+}

@@ -1,0 +1,103 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SGE.UI
+build_property.RootNamespace = SGE.UI
+build_property.ProjectDir = C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\CONSU\proyectosDotnet\SGE Final\SGE.UI
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/AgregarExpediente.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZ3JlZ2FyRXhwZWRpZW50ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/AgregarTramite.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZ3JlZ2FyVHJhbWl0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/AgregarUsuario.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZ3JlZ2FyVXN1YXJpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/EditarExpediente.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0YXJFeHBlZGllbnRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/EditarPermisos.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0YXJQZXJtaXNvcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/EditarTramite.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0YXJUcmFtaXRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/EditarUsuario.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0YXJVc3VhcmlvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/ListadoExpedientes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YWRvRXhwZWRpZW50ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/ListadoTramites.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YWRvVHJhbWl0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/MenuAdministrador.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNZW51QWRtaW5pc3RyYWRvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/MenuUsuario.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xNZW51VXN1YXJpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/DialogoConfirmacion.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dvQ29uZmlybWFjaW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-uz9ff9pls7
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-k716zha75e
+
+[C:/Users/CONSU/proyectosDotnet/SGE Final/SGE.UI/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-067s78a2ky

@@ -1,0 +1,159 @@
+﻿@page "/listadoexpedientes"
+@rendermode InteractiveServer
+@inject CasoDeUsoExpedienteConsultaTodos ListarExpedientes
+@inject NavigationManager NavigationManager
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoExpedienteConsultaPorId
+@inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja
+@inject IServicioSesion UserService
+
+<h2>Lista de Expedientes</h2>
+
+<p>A continuación se visualiza el listado de los Expedientes.</p>
+<input @bind="searchTerm" placeholder="Buscar por ID..." class="form-control" />
+<button @onclick="BuscarExpedienteId" class="btn btn-primary">Buscar</button>
+@if (_expedientes == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Caratula</th>
+                <th>FechaCreacion</th>
+                <th>UltimaModificacion</th>
+                <th>IdUsuarioUltimaModificacion</th>
+                <th>Estado</th>
+                <th>Tramites</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expediente in _expedientes)
+            {
+                <tr>
+                    <td>@expediente.Id</td>
+                    <td>@expediente.Caratula</td>
+                    <td>@expediente.FechaCreacion</td>
+                    <td>@expediente.UltimaModificacion</td>
+                    <td>@expediente.IdUsuarioUltimaModificacion</td>
+                    <td>@expediente.Estado</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="()=>ListaTramite(expediente)">
+                            <span class="oi oi-pencil">Ver Tramites</span>  
+                        </button>
+                         <button class="btn btn-primary" @onclick="()=>AgregarTramites(expediente)">
+                            <span class="oi oi-pencil">Agregar Tramite</span>
+                        </button>
+                    </td>
+                </tr>
+                <td>
+                    <div class="container">
+                        <button class="btn btn-danger" @onclick="()=> EliminarExpediente(expediente)">
+                            <span class="oi oi-trash">Eliminar</span>
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="container">
+                        <button class="btn btn-primary" @onclick="()=>EditarExpediente(expediente)">
+                            <span class="oi oi-pencil">Editar</span>
+                        </button>
+                    </div>
+                </td>
+            }
+        </tbody>
+    </table>
+}
+<div class="container">
+    <button @onclick="IrAgregarExpediente" class="btn btn-primary">Agregar Expediente</button>
+    <button @onclick="Volver" class="btn btn-primary">Menu</button>
+</div>
+
+
+@code {
+    private string searchTerm = "";
+    private int id_Usuario => UserService.Id;
+    private string ErrorMessage { get; set; }=null!;
+    List<Expediente> _expedientes = new List<Expediente>();
+    Expediente? _expedienteEliminar = null!;
+    Expediente? _expedienteBusqueda = null;
+
+    protected override void OnInitialized()
+    {
+        _expedientes = ListarExpedientes.Ejecutar();
+    }
+
+    private void AgregarTramites (Expediente expediente)
+    {
+        NavigationManager.NavigateTo($"AgregarTramite/{expediente.Id}");
+    }
+     private void EliminarExpediente(Expediente expediente)
+    {
+        _expedienteEliminar = expediente;
+        if (_expedienteEliminar != null)
+        {
+            CasoDeUsoExpedienteBaja.Ejecutar(_expedienteEliminar.Id,id_Usuario);
+            _expedientes = ListarExpedientes.Ejecutar(); // Actualiza la lista
+            _expedienteEliminar = null; // Limpiar el expediente seleccionado
+        }
+    }
+
+
+   private void ListaTramite(Expediente expediente)
+    {
+        NavigationManager.NavigateTo($"/listarTramites/{expediente.Id}");
+    }
+
+   private void BuscarExpedienteId()
+    {
+        if (int.TryParse(searchTerm, out int expedienteId))
+        {
+            try
+            {
+                _expedienteBusqueda =  CasoDeUsoExpedienteConsultaPorId.Ejecutar(expedienteId);
+
+                if (_expedienteBusqueda != null)
+                {
+                    ErrorMessage = string.Empty; // Limpiar mensaje de error si hay resultados
+                    _expedientes.Clear(); // Limpiar la lista de expedientes
+                    _expedientes.Add(_expedienteBusqueda); // Agregar el expediente encontrado
+                }
+                else
+                {
+                    ErrorMessage = "No se encontró ningún expediente con ese ID.";
+                    _expedientes.Clear(); // Limpiar la lista de expedientes si no hay resultados
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ocurrió un error al buscar el expediente: {ex.Message}";
+                _expedientes.Clear(); // Limpiar la lista de expedientes en caso de error
+            }
+        }
+        else
+        {
+            ErrorMessage = "No se proporcionó un ID correcto, revisar escritura.";
+        }
+    }
+   private void EditarExpediente(Expediente expediente)
+    {
+         NavigationManager.NavigateTo($"/editarExpediente/{expediente.Id}");
+    }
+
+
+    private void IrAgregarExpediente()
+    {
+        NavigationManager.NavigateTo("/AgregarExpediente");
+    }
+    private void Volver()
+    {
+        if(id_Usuario==1){
+             NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/MenuUsuario");
+        }
+    }
+}

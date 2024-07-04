@@ -1,0 +1,58 @@
+﻿@page "/AgregarExpediente"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+@inject IServicioSesion ServicioSesion
+@inject CasoDeUsoExpedienteAlta CasoDeUsoExpedienteAlta
+@inject IExpedienteRepositorio IExpedienteRepositorio
+
+<h1>Agregar Expediente</h1>
+<form>
+    <p>Caratula: <input placeholder="Caratula" @bind="_expediente.Caratula" class="form-control" required type="text"></p>
+</form>
+<div class="container">
+    <button class="btn btn-primary" @onclick="RegistrarExpediente">Aceptar</button>
+    <button @onclick="VolverMenu" class="btn btn-primary">Menu</button>
+</div>
+
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code{
+    public int id_Usuario => ServicioSesion.Id;
+    Expediente _expediente = new Expediente();
+    string ErrorMessage { get; set; }=null!;
+    private void RegistrarExpediente()
+    {
+        try{
+            // Ejecutar el caso de uso para agregar Expediente
+            CasoDeUsoExpedienteAlta.Ejecutar(_expediente,id_Usuario);
+            
+        
+            _expediente = new Expediente();
+            ErrorMessage = "Expediente registrado con éxito";
+        }
+        catch(Exception msj){
+            ErrorMessage = $"Error al registrar el expediente: {msj.Message}";
+            Console.WriteLine($"Exception: {msj}");
+        }
+    }
+
+
+    private void VolverMenu()
+    {
+        if(id_Usuario==1){
+             NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/MenuUsuario");
+        }
+        
+    }
+
+
+}

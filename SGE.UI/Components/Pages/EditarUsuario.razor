@@ -1,0 +1,76 @@
+﻿@page "/usuario/{idUsuario:int}"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject CasoDeUsoUsuarioModificacion CasoDeUsoUsuarioModificacion
+@inject CasoDeUsoUsuarioConsultaTodos CasoDeUsoUsuarioConsultaTodos
+@inject IHashService HashService
+@inject IUsuarioRepositorio IUsuarioRepositorio
+@inject IUsuarioValidador IUsuarioValidador
+@inject IServicioSesion UserService
+
+<h3>Actualizar Datos</h3>
+<form>
+    <p>Nombre: <input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control" required type="text"></p>
+    <p>Apellido: <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control" required type="text"></p>
+    <p>Email: <input placeholder="Email" @bind="_usuario.CorreoElectronico" class="form-control" required type="email"></p>
+    <p>Contraseña: <input placeholder="Contraseña" @bind="_password" type="password" class="form-control"></p>
+</form>
+
+<div class="container">
+    <button class="btn btn-primary" @onclick="ModificarUsuario">Aceptar</button>
+    <button @onclick="VolverHome" class="btn btn-primary">Home</button>
+</div>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    private int id_UsuarioActual => UserService.Id;
+    [Parameter] public int idUsuario { get; set; }
+    Usuario _usuario = new Usuario();
+    string _password = string.Empty;
+    String ErrorMessage { get; set; }=null!;
+
+    private void ModificarUsuario()
+    {
+        try
+    {
+        _usuario.Id=idUsuario;
+        // Generar hash y sal para la contraseña ingresada
+        (string hash, string sal) = HashService.CreateHash(_password);
+        _usuario.HashContraseña = hash;
+        _usuario.SalContraseña = sal;
+        
+        // Ejecutar el caso de uso para agregar el usuario
+        CasoDeUsoUsuarioModificacion.Ejecutar(_usuario,id_UsuarioActual);
+        
+        // Limpiar variables después de registrar correctamente
+        _usuario = new Usuario();
+        _password = string.Empty; // Limpiar contraseña también si es necesario
+        
+        // Mensaje de éxito
+        ErrorMessage = "Usuario modificado con éxito";
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = $"Error al modificar usuario: {ex.Message}";
+        Console.WriteLine($"Exception: {ex}");
+    }
+    }
+
+    private void VolverHome()
+    {
+        if(id_UsuarioActual==1){
+             NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/MenuUsuario");
+        }
+
+    }
+
+}

@@ -1,0 +1,72 @@
+﻿@page "/usuarioPermisos/{idUsuarioM:int?}"
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject IUsuarioRepositorio IUsuarioRepositorio
+@inject IServicioSesion UserService
+@inject CasoDeUsoUsuarioModificarPermisos CasoDeUsoUsuarioModificarPermisos
+
+<h2>Agregar Permisos</h2>
+
+
+<form>
+    <div class="form-group">
+        <label for="permisos">Selecciona un permiso:</label>
+        <select id="permisos" @bind="permisoSeleccionado">
+        @foreach (var permiso in Enum.GetValues(typeof(Permiso)).Cast<Permiso>().Where(p => !permisosExcluidos.Contains(p)))
+        {
+            <option value="@permiso">@permiso</option>
+        }
+        </select>
+    </div>
+</form>
+<div class="container">
+    <button class="btn btn-primary" @onclick="AgregarPermiso">Agregar</button>
+    <button @onclick="VolverMenu" class="btn btn-primary">Menu</button>
+</div>
+
+
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int idUsuarioM { get; set; }
+    Permiso permisoSeleccionado;
+    int id_Usuario => UserService.Id;
+    private string ErrorMessage { get; set; }=null!;
+    private List<Permiso> permisosExcluidos = new List<Permiso>{    Permiso.UsuarioBaja, 
+                                                                    Permiso.ListarUsuarios,
+                                                                    Permiso.UsuarioModificacion,
+                                                                    Permiso.ModificarPermisos
+                                                                };
+
+                                                                
+    private void AgregarPermiso(){
+        try{
+
+            CasoDeUsoUsuarioModificarPermisos.Ejecutar(idUsuarioM,id_Usuario,permisoSeleccionado);
+            ErrorMessage = "Permiso agregado exitosamente";
+        }
+        catch(Exception msj){
+            ErrorMessage = $"Error al agregar permiso: {msj.Message}"; 
+            Console.WriteLine($"Exception: {msj}");
+        }
+    }
+
+
+    private void VolverMenu()
+    {
+        if(id_Usuario==1){
+             NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/MenuUsuario");
+        }
+    }
+
+}

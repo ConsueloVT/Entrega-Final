@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SGE.Aplicacion\SGE.Aplicacion.csproj" />
+    <ProjectReference Include="..\SGE.Repositorios\SGE.Repositorios.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Pages\EditarExpediente.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Pages\EditarExpediente.razor" />
+  </ItemGroup>
+
+
+</Project>

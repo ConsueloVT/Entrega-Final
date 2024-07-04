@@ -1,0 +1,49 @@
+﻿@page "/editarExpediente/{expedienteId:int}"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoExpedienteConsultaPorId
+@inject CasoDeUsoExpedienteModificacion CasoDeUsoExpedienteModificacion
+@inject IServicioSesion UserService
+
+<h1>Editar Expediente</h1>
+<form>
+    <p>Caratula: <input placeholder="Caratula" @bind="_expediente.Caratula" class="form-control" required type="text"></p>
+</form>
+<div class="container">
+    <button class="btn btn-primary" @onclick="GuardarCambios">Guardar</button>
+</div>
+
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code
+{
+    private int id_Usuario => UserService.Id;
+    [Parameter] public int expedienteId { get; set; }
+
+    private Expediente _expediente=new Expediente();
+    private string ErrorMessage { get; set; }=null!;
+
+    protected override void OnInitialized()
+    {
+       _expediente = CasoDeUsoExpedienteConsultaPorId.Ejecutar(expedienteId);
+    }
+
+    private void GuardarCambios()
+    {
+        try{
+            CasoDeUsoExpedienteModificacion.Ejecutar(_expediente,id_Usuario);
+            NavigationManager.NavigateTo("/listadoExpedientes");
+        }
+        catch(Exception msj){
+            ErrorMessage = $"Error al modificar expediente: {msj.Message}"; 
+            Console.WriteLine($"Exception: {msj}");
+        }
+        
+    }
+}

@@ -1,0 +1,66 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoUsuarioConsultaTodos CasoDeUsoUsuarioConsultaTodos
+@inject IHashService HashService
+@inject IServicioSesion ServicioSesion
+
+<PageTitle>Home</PageTitle>
+
+
+<div class="contenedor">
+    <h1>Iniciar Sesión</h1>
+
+    <form>
+        <div class="elemento">
+            <label for="email">Email:</label>
+            <input id="email" placeholder="Email" @bind="_correoElectronico" class="form-control" required type="email">
+        </div>
+        <div class="elemento">
+            <label for="password">Contraseña:</label>
+            <input id="password" placeholder="Contraseña" @bind="_password" type="password" class="form-control">
+        </div>
+    </form>
+
+    <button class="btn btn-primary" @onclick="Iniciar">Iniciar Sesión</button>
+    <button @onclick="NavigateToRegistro" class="btn btn-secondary">Registrarse</button>
+ </div>
+
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+   
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+    String _correoElectronico = string.Empty;
+    String _password = string.Empty;
+    String ErrorMessage { get; set; }=null!;
+
+    private void Iniciar()
+    {
+       
+        if (ServicioSesion.Loggin( _correoElectronico, _password))
+        {
+            if(ServicioSesion.Id==1){
+                Navegador.NavigateTo("/MenuAdministrador");
+            } 
+            else{
+                Navegador.NavigateTo("/MenuUsuario");
+            } 
+                    
+        }
+        else
+        {
+            ErrorMessage="El email o contraseña ingresados son incorrectos(para recuperar su contraseña contacte al administrador)";
+
+        }
+    }
+
+    private void NavigateToRegistro()
+    {
+        NavigationManager.NavigateTo("/Registrarse"); // Redirige a la página de registro de usuarios
+    }
+}

@@ -1,0 +1,66 @@
+﻿@page "/editarTramite/{idTramite:int}"
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject CasoDeUsoTramiteModificacion CasoDeUsoTramiteModificacion
+@inject ITramiteRepositorio ITramiteRepositorio
+@inject IServicioSesion UserService
+
+<h1>Editar Tramite</h1>
+
+<form>
+    <div class="form-group">
+        <label for="contenido">Contenido</label>
+        <textarea id="contenido" class="form-control" @bind="_tramite.Contenido"></textarea>
+    </div>
+    <div class="form-group">
+            <label for="etiqueta">Seleccionar Etiqueta para el Trámite</label><br/>
+        <select id="etiquetas" @bind="_tramite.Etiqueta">
+            @foreach (var etiqueta in Enum.GetValues(typeof(EtiquetaTramite)))
+            {
+                <option value="@etiqueta">@etiqueta</option>
+            }
+        </select>
+    </div>
+    <button type="button" class="btn btn-primary" @onclick="guardarCambios">Guardar</button>
+</form>
+
+ @if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+
+    private int id_Usuario => UserService.Id;
+
+    [Parameter] public int idTramite { get; set; }
+
+    public int expedienteId;
+    private Tramite _tramite = null!;
+    private string? ErrorMessage { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        _tramite = ITramiteRepositorio.ObtenerPorId(idTramite);
+        expedienteId=_tramite.ExpedienteId;
+    }
+
+     private void guardarCambios()
+    {
+        try
+        {
+            Console.WriteLine("Guardando cambios...");
+            CasoDeUsoTramiteModificacion.Ejecutar(_tramite, id_Usuario);
+            Console.WriteLine("Navegación después de guardar...");
+            NavigationManager.NavigateTo($"/listarTramites/{expedienteId}");
+        }
+        catch (Exception msj)
+        {
+           ErrorMessage = $"Error al modificar tramite: {msj.Message}"; 
+           Console.WriteLine($"Exception: {msj}");
+        }
+    }
+}

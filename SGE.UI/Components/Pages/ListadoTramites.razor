@@ -1,0 +1,163 @@
+﻿@page "/listarTramites/{idExpediente:int}"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ITramiteRepositorio ITramiteRepositorio
+@inject IServicioSesion UserService
+@inject CasoDeUsoTramiteBaja CasoDeUsoTramiteBaja
+@inject CasoDeUsoTramiteConsultaPorExpediente CasoDeUsoTramiteConsultaPorExpediente
+@inject CasoDeUsoTramiteConsultaPorEtiqueta CasoDeUsoTramiteConsultaPorEtiqueta
+
+<DialogoConfirmacion @ref="dialogo" OnConfirmado="Eliminar" />
+
+
+<h3>ListadoTramites</h3>
+
+<p>A continuación se visualiza el listado de los Tramites.</p>
+<input @bind="searchTerm" placeholder="Buscar por Etiqueta..." class="form-control" />
+<button @onclick="BuscarPorEtiqueta" class="btn btn-primary">Buscar</button>
+
+@if (_tramites == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else if (!_tramites.Any())
+{
+    <p>No se encontraron trámites para este expediente.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ExpedienteId</th>
+                <th>Etiqueta</th>
+                <th>Contenido</th>
+                <th>FechaCreacion</th>
+                <th>UltimaModificacion</th>
+                <th>IdUsuarioUltimaModificacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tramite in _tramites)
+            {
+                <tr>
+                    <td>@tramite.Id</td>
+                    <td>@tramite.ExpedienteId</td>
+                    <td>@tramite.Etiqueta</td>
+                    <td>@tramite.Contenido</td>
+                    <td>@tramite.FechaCreacion</td>
+                    <td>@tramite.UltimaModificacion</td>
+                    <td>@tramite.IdUsuarioUltimaModificacion</td>
+
+                    <td>
+                        <button class="btn btn-primary" @onclick="()=>EditarTramite(tramite)">
+                            <span class="oi oi-pencil">Editar</span>
+                        </button>
+                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(tramite)">
+                            <span class="oi oi-trash">Eliminar</span>
+                        </button>
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<div class="container">
+    <button @onclick="VolverHome" class="btn btn-primary">Menu</button>
+</div>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+@code
+{
+    private string searchTerm = "";
+    int id_Usuario => UserService.Id;
+    [Parameter]
+    public int idExpediente { get; set; }
+    List<Tramite>? _tramites;
+    String ErrorMessage { get; set; }=null!;
+    Tramite? _tramiteEliminar = null!;
+
+   protected override void OnInitialized()
+    {
+         try
+        {
+            _tramites = CasoDeUsoTramiteConsultaPorExpediente.Ejecutar(idExpediente);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        
+    }
+    private void EditarTramite (Tramite tramite)
+    {
+        NavigationManager.NavigateTo($"/editarTramite/{tramite.Id}");
+    }
+
+    DialogoConfirmacion dialogo = null!; // Declaración de la referencia dialogo
+
+    private void ConfirmarEliminacion(Tramite tramite)
+    {
+        _tramiteEliminar = tramite;
+        dialogo.Mostrar($"¿Desea eliminar el tramite {tramite.Id}?");
+    }
+
+    private void Eliminar()
+    {
+        if (_tramiteEliminar != null)
+        {
+            try{
+                CasoDeUsoTramiteBaja.Ejecutar(_tramiteEliminar,id_Usuario);
+                _tramites =  CasoDeUsoTramiteConsultaPorExpediente.Ejecutar(idExpediente);// Actualiza la lista
+                _tramiteEliminar = null; // Limpiar el usuario seleccionado
+            }
+            catch (Exception e){
+                ErrorMessage = $"Error al registrar el tramite: {e.Message}";
+                Console.WriteLine($"Exception: {e}");
+            }
+        }
+    }
+
+   private void BuscarPorEtiqueta ()
+    {
+      if (Enum.TryParse<EtiquetaTramite>(searchTerm, out EtiquetaTramite etiquetaTramite))
+    {
+        try
+        {
+            _tramites = CasoDeUsoTramiteConsultaPorEtiqueta.Ejecutar(etiquetaTramite);
+            ErrorMessage = string.Empty; // Limpiar mensaje de error si hay resultados
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Ocurrió un error al buscar los trámites: {ex.Message}";
+            _tramites.Clear(); // Limpiar la lista de trámites en caso de error
+        }
+    }
+    else
+    {
+        ErrorMessage = "La etiqueta proporcionada no es válida.";
+    }
+    }
+
+    private void VolverHome()
+    {
+        if(id_Usuario==1){
+             NavigationManager.NavigateTo("/MenuAdministrador");
+        }
+        else{
+            NavigationManager.NavigateTo("/MenuUsuario");
+        }
+    }
+
+
+}

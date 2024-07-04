@@ -1,0 +1,104 @@
+﻿@page "/MenuUsuario"
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject IServicioSesion UserService
+@inject IUsuarioRepositorio IUsuarioRepositorio
+
+
+<h1> Menu Usuario </h1>
+<h2>Datos Personales</h2>
+
+
+@if (_usuario == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo electrónico</th>
+                <th>Permisos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                    <td>@_usuario.Id</td>
+                    <td>@_usuario.Nombre</td>
+                    <td>@_usuario.Apellido</td>
+                    <td>@_usuario.CorreoElectronico</td>
+            <td>
+                    @if (_usuario.ListaPermisos != null && _usuario.ListaPermisos.Any())
+                    {
+                         <ul>
+                            @foreach (var permiso in _usuario.ListaPermisos)
+                            {
+                                    <li>@permiso.ToString()</li> <!-- Asegura que se muestre el valor del permiso -->
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>Sin permisos asignados</span>
+                    }
+
+            </td>
+            </tr>
+            <td>
+                <div class="container">
+                    <button class="btn btn-primary" @onclick="()=>ModificarUsuario(_usuario)">
+                        <span class="oi oi-pencil">Editar</span>
+                    </button>
+                </div>
+            </td>
+        </tbody>
+    </table>
+}
+<div class="container">
+    <button @onclick="IrAgregarExpediente" class="btn btn-primary">Agregar Expediente</button>
+    <button @onclick="listadoExpedientes" class="btn btn-primary">Ir a Listado de Expedientes</button>
+    <button @onclick="VolverHome" class="btn btn-primary">CerrarSesion</button>
+</div>
+
+
+@code {
+
+    public int usuario_Actual => UserService.Id;
+    Usuario _usuario =null!;
+
+    protected override void OnInitialized()
+    {
+        var usuario=IUsuarioRepositorio.ObtenerPorId(usuario_Actual);
+        usuario.ListaPermisos = IUsuarioRepositorio.GetPermisos(usuario.Id);
+        _usuario = usuario;
+
+    }
+
+
+    private void ModificarUsuario(Usuario usuario)
+    {
+        NavigationManager.NavigateTo($"usuario/{usuario.Id}");
+    }
+    
+
+     private void IrAgregarExpediente()
+    {
+        NavigationManager.NavigateTo("/AgregarExpediente");
+    }
+    private void listadoExpedientes()
+    {
+        NavigationManager.NavigateTo("/listadoexpedientes");
+    }
+
+
+    private void VolverHome()
+    {
+        UserService.Close();
+        NavigationManager.NavigateTo("/");
+    }
+}

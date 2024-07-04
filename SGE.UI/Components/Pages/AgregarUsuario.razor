@@ -1,0 +1,67 @@
+﻿@page "/Registrarse"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject CasoDeUsoUsuarioAlta CasoDeUsoUsuarioAlta 
+@inject CasoDeUsoUsuarioConsultaTodos CasoDeUsoUsuarioConsultaTodos
+@inject IHashService HashService
+@inject IUsuarioRepositorio IUsuarioRepositorio
+@inject IUsuarioValidador IUsuarioValidador
+
+<h3>Registrarse</h3>
+<form>
+    <p>Nombre: <input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control" required type="text"></p>
+    <p>Apellido: <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control" required type="text"></p>
+    <p>Email: <input placeholder="Email" @bind="_usuario.CorreoElectronico" class="form-control" required type="email"></p>
+    <p>Contraseña: <input placeholder="Contraseña" @bind="_password" type="password" class="form-control"></p>
+</form>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+
+<div class="container">
+    <button class="btn btn-primary" @onclick="RegistrarUsuario">Aceptar</button>
+    <button @onclick="VolverHome" class="btn btn-primary">Home</button>
+</div>
+
+@code {
+    Usuario _usuario = new Usuario();
+    string _password = string.Empty;
+    String ErrorMessage { get; set; }=null!;
+
+    private void RegistrarUsuario()
+    {
+        try
+    {
+        // Generar hash y sal para la contraseña ingresada
+        (string hash, string sal) = HashService.CreateHash(_password);
+        _usuario.HashContraseña = hash;
+        _usuario.SalContraseña = sal;
+        
+        // Ejecutar el caso de uso para agregar el usuario
+        CasoDeUsoUsuarioAlta.Ejecutar(_usuario);
+        
+        // Limpiar variables después de registrar correctamente
+        _usuario = new Usuario();
+        _password = string.Empty; // Limpiar contraseña también si es necesario
+        
+        // Mensaje de éxito
+        ErrorMessage = "Usuario registrado con éxito";
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = $"Error al registrar usuario: {ex.Message}";
+        Console.WriteLine($"Exception: {ex}");
+    }
+    }
+
+    private void VolverHome()
+    {
+        NavigationManager.NavigateTo("/"); // Vuelve al Home
+
+    }
+
+}
