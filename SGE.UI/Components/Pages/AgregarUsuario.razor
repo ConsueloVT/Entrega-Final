@@ -64,7 +64,7 @@
     private void VolverHome()
     {
         if(id_Usuario==1){
-            NavigationManager.NavigateTo("/MenuAdministrador");
+            NavigationManager.NavigateTo("/MenuAdministrador");//Va ahi si el administrador fue el que registró al nuevo usuario.
         }
         else{
             NavigationManager.NavigateTo("/"); // Vuelve al Home

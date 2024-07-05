@@ -11,6 +11,6 @@ public interface ITramiteRepositorio
     List<Tramite> ListarPorEtiqueta(EtiquetaTramite etiqueta);
     //int ObtenerSiguienteId();
     Tramite? ObtenerPorId(int id);
-    List<Tramite>? ListarTramites();
+    List<Tramite> ListarTramites();
 
 }

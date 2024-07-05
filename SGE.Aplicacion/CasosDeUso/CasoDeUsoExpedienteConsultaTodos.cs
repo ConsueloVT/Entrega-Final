@@ -5,7 +5,7 @@ using SGE.Aplicacion.Enumerativos;
 
 public class CasoDeUsoExpedienteConsultaTodos(IExpedienteRepositorio expedienteRepositorio):ExpedienteCasoDeUso(expedienteRepositorio)
 {
-    public List<Expediente>? Ejecutar()
+    public List<Expediente> Ejecutar()
     {
         /*lista todos los expedientes (sin sus trámites) --> */
         return Repositorio.ObtenerTodos();

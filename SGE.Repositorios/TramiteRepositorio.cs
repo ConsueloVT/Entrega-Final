@@ -65,7 +65,7 @@ public class TramiteRepositorio : ITramiteRepositorio
 
     }
 
-    public List<Tramite>? ListarTramites(){
+    public List<Tramite> ListarTramites(){
         using (var db = new EntidadesContext()){
             return db.Tramites.ToList();
         }

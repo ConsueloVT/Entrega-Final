@@ -69,13 +69,15 @@ else
 @code {
 
     public int usuario_Actual => UserService.Id;
-    Usuario _usuario =null!;
+    Usuario _usuario =new Usuario();
 
     protected override void OnInitialized()
     {
         var usuario = IUsuarioRepositorio.ObtenerPorId(usuario_Actual);
-        if(usuario!=null) usuario.ListaPermisos = IUsuarioRepositorio.GetPermisos(usuario.Id);
-        _usuario = usuario;
+        if(usuario!=null) {
+            usuario.ListaPermisos = IUsuarioRepositorio.GetPermisos(usuario.Id);
+            _usuario = usuario;
+        }
 
     }
 

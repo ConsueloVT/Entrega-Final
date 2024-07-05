@@ -39,13 +39,16 @@
     [Parameter] public int idTramite { get; set; }
 
     public int expedienteId;
-    private Tramite _tramite = null;
+    private Tramite _tramite = new Tramite();
     private string? ErrorMessage { get; set; } = "";
 
     protected override void OnInitialized()
     {
-        _tramite = ITramiteRepositorio.ObtenerPorId(idTramite);
-        expedienteId=_tramite.ExpedienteId;
+        var tramite = ITramiteRepositorio.ObtenerPorId(idTramite);
+        if(tramite !=null) {
+            _tramite=tramite;
+            expedienteId=_tramite.ExpedienteId;
+        }
     }
 
      private void guardarCambios()

@@ -83,20 +83,14 @@ else
     int id_Usuario => UserService.Id;
     [Parameter]
     public int idExpediente { get; set; }
-    List<Tramite>? _tramites;
+    List<Tramite>? _tramites=null!;
     String ErrorMessage { get; set; }=null!;
     Tramite? _tramiteEliminar = null!;
 
    protected override void OnInitialized()
     {
-         try
-        {
-            _tramites = CasoDeUsoTramiteConsultaPorExpediente.Ejecutar(idExpediente);
-        }
-        catch (Exception ex)
-        {
-            ErrorMessage = ex.Message;
-        }
+
+        _tramites = CasoDeUsoTramiteConsultaPorExpediente.Ejecutar(idExpediente);
         
     }
     private void EditarTramite (Tramite tramite)
@@ -122,7 +116,7 @@ else
                 _tramiteEliminar = null; // Limpiar el usuario seleccionado
             }
             catch (Exception e){
-                ErrorMessage = $"Error al registrar el tramite: {e.Message}";
+                ErrorMessage = $"Error al eliminar el tramite: {e.Message}";
                 Console.WriteLine($"Exception: {e}");
             }
         }

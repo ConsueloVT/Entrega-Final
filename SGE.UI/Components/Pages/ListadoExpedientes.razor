@@ -105,10 +105,10 @@ else
                 _expedientes = ListarExpedientes.Ejecutar(); // Actualiza la lista
                 _expedienteEliminar = null; // Limpiar el expediente seleccionado
             }
-        catch(Exception msj){
-            ErrorMessage = $"Error al eliminar el expediente: {msj.Message}";
-            Console.WriteLine($"Exception: {msj}");
-        }
+            catch(Exception msj){
+                ErrorMessage = $"Error al eliminar el expediente: {msj.Message}";
+                Console.WriteLine($"Exception: {msj}");
+            }
         }
     }
 

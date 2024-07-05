@@ -25,13 +25,14 @@
 {
     private int id_Usuario => UserService.Id;
     [Parameter] public int expedienteId { get; set; }
-
     private Expediente _expediente=new Expediente();
     private string ErrorMessage { get; set; }=null!;
 
     protected override void OnInitialized()
     {
-       _expediente = CasoDeUsoExpedienteConsultaPorId.Ejecutar(expedienteId);
+        var expediente=CasoDeUsoExpedienteConsultaPorId.Ejecutar(expedienteId);
+        if(expediente != null) _expediente = expediente;
+       
     }
 
     private void GuardarCambios()

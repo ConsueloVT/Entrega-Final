@@ -24,7 +24,6 @@ public class CasoDeUsoUsuarioAlta(IUsuarioRepositorio _repositorio,IUsuarioValid
             else
             {
                 // Otorgar permiso básico
-                Repositorio.AgregarPermisoUsuario(usuario.Id, Permiso.ListarUsuarios);
                 Repositorio.AgregarPermisoUsuario(usuario.Id, Permiso.ListarExpedientes);
                 Repositorio.AgregarPermisoUsuario(usuario.Id, Permiso.ListarTramites);
             }

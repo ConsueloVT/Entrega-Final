@@ -47,7 +47,7 @@ public class ExpedienteRepositorio : IExpedienteRepositorio
             return expediente;
         }
     }
-    public List<Expediente>? ListarExpedientesConSusTramites()
+    public List<Expediente> ListarExpedientesConSusTramites()
     {
         using(var db = new EntidadesContext()){
             return db.Expedientes.Include(t => t.Tramites).ToList();
@@ -56,7 +56,7 @@ public class ExpedienteRepositorio : IExpedienteRepositorio
 
     
     //Caso de uso consulta TODOS
-    public List<Expediente>? ObtenerTodos(){
+    public List<Expediente> ObtenerTodos(){
         using (var db=new EntidadesContext()){
             List<Expediente> resultado = db.Expedientes.ToList();
             return resultado;  
